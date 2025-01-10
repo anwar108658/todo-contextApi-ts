@@ -5,8 +5,9 @@ const TodosItem = () => {
   const [id] = useSearchParams();
   const data = id.get('todo');
   const { todos, deleteTodo, toggelTodo } = useTodo();
-
   let filterTodo = todos;
+  
+
   if (data === 'complete') {
     filterTodo = filterTodo.filter((todo) => todo.isComplete);
   }

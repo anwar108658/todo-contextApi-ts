@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 
 
@@ -37,7 +37,7 @@ export const TodoProvider = ({children}:TodosProviderProps) => {
                 date:`${new Date}`, 
             },
             ...prev
-            ]
+        ]
             return newData
         })
     }
@@ -57,6 +57,20 @@ export const TodoProvider = ({children}:TodosProviderProps) => {
             return prev.filter((todo) => todo.id !== id)
         })
     }
+    useEffect(() => {
+        const storedTodos = localStorage.getItem("todos");
+        // console.log("get",storedTodos)
+        const parsedData = storedTodos ? JSON.parse(storedTodos) : [];
+        setTodo(parsedData)
+        console.log(parsedData)
+    }, []);
+    
+      useEffect(() => {
+        if (todos.length > 0) {
+            localStorage.setItem("todos",JSON.stringify(todos))
+            console.log("set")
+        }
+      }, [todos])
     return <TodosContext.Provider value={{todos,addTodoHandler,toggelTodo,deleteTodo}}>
         {children}
     </TodosContext.Provider>
